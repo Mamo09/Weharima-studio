@@ -28,7 +28,7 @@ const Navbar: React.FC = () => {
           <div className="flex-shrink-0">
             <Link href="/" passHref>
               <Image
-                src="/assets/img/wehaLogo.png"
+                src="https://res.cloudinary.com/dnnppnpn7/image/upload/v1738559384/wehaLogo_hwvzpx.png"
                 alt="logo WEHA"
                 width={100}
                 height={30}

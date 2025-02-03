@@ -2,7 +2,7 @@
 import React from 'react';  
 import Portfolio from './components/portfolio';  
 import Hero from './components/hero';
-import WhyChooseUs from './components/whychooseus';
+// import WhyChooseUs from './components/whychooseus';
 import ProjectStages from './components/workprocess';
 
 
@@ -17,7 +17,7 @@ const HomePage: React.FC = () => {
       
       <Hero />
       <Portfolio/>
-      <WhyChooseUs/>
+      {/* <WhyChooseUs/> */}
       <ProjectStages/>
       
     </div>

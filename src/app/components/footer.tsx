@@ -17,6 +17,7 @@ const Footer: React.FC = () => {
     { name: 'Architecture', path: '/services' },  
     { name: 'Visualization', path: '/services' },  
   ];  
+  const imageUrl = 'https://res.cloudinary.com/dnnppnpn7/image/upload/v1738558658/My%20Brand/LOGO_white_bj9tbi.png'
   
   return (    
     <footer className="bg-gray-900 text-white py-10">    
@@ -25,7 +26,7 @@ const Footer: React.FC = () => {
           {/* Kolom 1: Informasi Umum - Lebar 2 kolom */}    
           <div className="flex flex-col items-start mb-6 md:col-span-2 -mt-9 px-8"> {/* Menambahkan kolom span */}  
             <Image    
-              src="/assets/img/LOGO_white.png"    
+              src={imageUrl}    
               alt="logo WEHA"    
               width={140}    
               height={40}   
