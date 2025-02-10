@@ -4,6 +4,7 @@ import { useEffect, useState, WheelEvent, MouseEvent, TouchEvent } from 'react';
 import { IoClose } from "react-icons/io5";
 import { IoMdAdd, IoMdRemove } from "react-icons/io";
 import { APIError } from '@/utils/errorHandler';
+import { useScrollLock } from '@/hooks/useScrollLock';
 
 const Shimmer = () => (
   <div className="animate-pulse">
@@ -39,6 +40,9 @@ const ImageGallery = () => {
   const MIN_ZOOM = 0.5;
   const MAX_ZOOM = 3;
   const ZOOM_STEP = 0.2;
+
+  // Use the scroll lock hook
+  useScrollLock(!!selectedImage);
 
   const calculateZoomPosition = (newZoom: number, clientX: number, clientY: number, currentZoom: number) => {
     if (!selectedImage) return { x: 0, y: 0 };
@@ -219,30 +223,6 @@ const ImageGallery = () => {
       window.removeEventListener('keydown', handleEsc);
     };
   }, []);
-
-  // Prevent body scroll when modal is open
-  useEffect(() => {
-    if (selectedImage) {
-      // Store current scroll position
-      const scrollY = window.scrollY;
-      document.body.style.position = 'fixed';
-      document.body.style.top = `-${scrollY}px`;
-      document.body.style.width = '100%';
-    } else {
-      // Restore scroll position
-      const scrollY = document.body.style.top;
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.width = '';
-      window.scrollTo(0, parseInt(scrollY || '0') * -1);
-    }
-
-    return () => {
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.width = '';
-    };
-  }, [selectedImage]);
 
   // Error UI with retry button
   if (error) {
