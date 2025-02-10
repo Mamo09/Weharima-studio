@@ -28,12 +28,65 @@ export async function GET() {
       throw new Error('Missing Cloudinary configuration');
     }
 
-    const result = await cloudinary.search
-      .expression('folder:Weha-Portfolio/*')
-      .sort_by('created_at', 'desc')
-      .with_field('tags')
-      .max_results(100)
-      .execute() as CloudinarySearchResponse;
+    const fetchWithRetry = async (retries = 3) => {
+      try {
+        const result = await cloudinary.search
+          .expression('folder:Weha-Portfolio/*')
+          .sort_by('created_at', 'desc')
+          .with_field('tags')
+          .with_field('context')
+          .max_results(100)
+          .execute() as CloudinarySearchResponse;
+
+        // Get additional details for each resource
+        const resourcesWithDetails = await Promise.all(
+          result.resources.map(async (resource) => {
+            try {
+              const details = await cloudinary.api.resource(resource.public_id, {
+                colors: true,
+                image_metadata: true,
+              });
+              
+              return {
+                ...resource,
+                width: details.width,
+                height: details.height,
+                secure_url: cloudinary.url(resource.public_id, {
+                  transformation: [
+                    { quality: 'auto:good', fetch_format: 'auto' },
+                    { dpr: 'auto' },
+                    { flags: 'progressive' }
+                  ],
+                }),
+                placeholder: cloudinary.url(resource.public_id, {
+                  transformation: [
+                    { width: 20, crop: 'scale' },
+                    { quality: 'auto:eco' },
+                    { effect: 'blur:1000' }
+                  ],
+                }),
+              };
+            } catch (error) {
+              console.error(`Error fetching details for ${resource.public_id}:`, error);
+              return resource;
+            }
+          })
+        );
+
+        return {
+          ...result,
+          resources: resourcesWithDetails,
+        };
+      } catch (error) {
+        if (retries > 0) {
+          await new Promise(resolve => setTimeout(resolve, 1000));
+          return fetchWithRetry(retries - 1);
+        }
+        throw error;
+      }
+    };
+
+    const result = await fetchWithRetry();
 
     // Validate response
     if (!result || !Array.isArray(result.resources)) {
