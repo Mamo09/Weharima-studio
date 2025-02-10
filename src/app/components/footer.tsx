@@ -6,7 +6,8 @@ const Footer: React.FC = () => {
   // Data tautan navigasi    
   const navLinks = [    
     { name: 'Home', path: '/' },       
-    { name: 'Service', path: '/services' },    
+    { name: 'Service', path: '/services' },
+    { name: 'Portfolio', path: '/portfolio' },    
     { name: 'About Us', path: '/about' },    
     { name: 'Contact Us', path: '/contact' },    
   ];    
