@@ -3,6 +3,7 @@
 import { useEffect, useState, WheelEvent, MouseEvent, TouchEvent } from 'react';
 import { IoClose } from "react-icons/io5";
 import { IoMdAdd, IoMdRemove } from "react-icons/io";
+import { APIError } from '@/utils/errorHandler';
 
 const Shimmer = () => (
   <div className="animate-pulse">
@@ -145,26 +146,46 @@ const ImageGallery = () => {
     setPosition({ x: 0, y: 0 });
   }, [selectedImage]);
 
+  // Add error handling to your fetch calls
+  const fetchImages = async () => {
+    try {
+      const response = await fetch('/api/cloudinary');
+      if (!response.ok) {
+        throw new Error(`Failed to load images (${response.status})`);
+      }
+      return await response.json();
+    } catch {
+      throw new Error('Failed to load portfolio images');
+    }
+  };
+
   useEffect(() => {
-    const fetchImages = async () => {
+    const loadImages = async () => {
       try {
-        const response = await fetch('/api/cloudinary');
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data: CloudinaryResponse = await response.json();
-        console.log('Fetched Data:', data); // Debug log
+        setLoading(true);
+        const data: CloudinaryResponse = await fetchImages();
 
-        if (!data.resources || !Array.isArray(data.resources)) {
-          throw new Error('Invalid data format');
+        // Validate data structure
+        if (!data || !Array.isArray(data.resources)) {
+          throw new Error('Invalid data format received from server');
         }
 
-        setImages(data.resources);
-        setAvailableTags(data.tags || []);
+        // Filter out any invalid images
+        const validImages = data.resources.filter(img => 
+          img.secure_url && img.public_id && img.format
+        );
+
+        setImages(validImages);
+        setAvailableTags(data.tags?.filter(Boolean) || []);
         setError(null);
+
       } catch (error) {
         console.error('Error fetching images:', error);
-        setError(error instanceof Error ? error.message : 'Failed to load images');
+        if (error instanceof APIError) {
+          setError(`Failed to load images: ${error.message}`);
+        } else {
+          setError('Failed to load images. Please try again later.');
+        }
         setImages([]);
         setAvailableTags([]);
       } finally {
@@ -172,8 +193,15 @@ const ImageGallery = () => {
       }
     };
 
-    fetchImages();
+    loadImages();
   }, []);
+
+  // Add error retry functionality
+  const handleRetry = () => {
+    setError(null);
+    setLoading(true);
+    // This will trigger the useEffect hook to fetch images again
+  };
 
   const filteredImages = activeTag === 'all' 
     ? images 
@@ -216,10 +244,22 @@ const ImageGallery = () => {
     };
   }, [selectedImage]);
 
+  // Error UI with retry button
   if (error) {
     return (
-      <div className="text-center py-8 text-red-500">
-        Error: {error}
+      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white pt-24 pb-16">
+        <div className="container mx-auto px-4 text-center">
+          <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-sm border border-[#a28f65]/10">
+            <p className="text-red-500 mb-4">{error}</p>
+            <button
+              onClick={handleRetry}
+              className="px-4 py-2 bg-[#a28f65]/10 text-[#a28f65] hover:bg-[#a28f65]/20 
+                transition-all duration-300"
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
       </div>
     );
   }

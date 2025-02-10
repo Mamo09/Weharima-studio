@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { IoArrowBack } from 'react-icons/io5';
 
@@ -11,6 +11,13 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  useEffect(() => {
+    // Log errors in production
+    if (process.env.NODE_ENV === 'production') {
+      console.error('Application Error:', error);
+    }
+  }, [error]);
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-[#fbfaf4] to-white flex items-center justify-center px-4">
       <div className="max-w-md w-full text-center">
