@@ -225,7 +225,7 @@ const ImageGallery = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black to-zinc-900 pt-24 pb-16">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white pt-24 pb-16">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <h1 className="text-2xl sm:text-3xl mb-12 text-center text-[#a28f65] font-light tracking-wide">
           Portfolio Gallery
@@ -266,7 +266,7 @@ const ImageGallery = () => {
             filteredImages.map((image) => (
               <div
                 key={image.public_id}
-                className="group relative aspect-[4/3] overflow-hidden cursor-pointer"
+                className="group relative aspect-[4/3] overflow-hidden cursor-pointer bg-white rounded-sm shadow-sm"
                 onClick={() => setSelectedImage(image)}
               >
                 <img
@@ -275,7 +275,7 @@ const ImageGallery = () => {
                   className="w-full h-full object-cover transition-all duration-500 group-hover:scale-105"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300" />
               </div>
             ))
           ) : (
@@ -288,7 +288,7 @@ const ImageGallery = () => {
         {/* Image Modal */}
         {selectedImage && (
           <div 
-            className="fixed inset-0 bg-black/98 backdrop-blur-sm flex items-center justify-center z-50"
+            className="fixed inset-0 bg-white/98 backdrop-blur-sm flex items-center justify-center z-50"
             onClick={() => setSelectedImage(null)}
           >
             <div 
@@ -322,7 +322,8 @@ const ImageGallery = () => {
               {/* Zoom Controls */}
               <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex gap-3">
                 <button
-                  className="bg-black/50 text-white w-9 h-9 flex items-center justify-center transition-all duration-300 disabled:opacity-30 hover:bg-black/70"
+                  className="bg-[#a28f65]/10 text-[#a28f65] w-9 h-9 flex items-center justify-center 
+                    transition-all duration-300 disabled:opacity-30 hover:bg-[#a28f65]/20"
                   onClick={(e) => {
                     e.stopPropagation();
                     handleZoomOut(e);
@@ -332,7 +333,8 @@ const ImageGallery = () => {
                   <IoMdRemove className="w-5 h-5" />
                 </button>
                 <button
-                  className="bg-black/50 text-white w-9 h-9 flex items-center justify-center transition-all duration-300 disabled:opacity-30 hover:bg-black/70"
+                  className="bg-[#a28f65]/10 text-[#a28f65] w-9 h-9 flex items-center justify-center 
+                    transition-all duration-300 disabled:opacity-30 hover:bg-[#a28f65]/20"
                   onClick={(e) => {
                     e.stopPropagation();
                     handleZoomIn(e);
@@ -345,7 +347,7 @@ const ImageGallery = () => {
 
               {/* Close Button */}
               <button
-                className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors duration-300"
+                className="absolute top-6 right-6 text-zinc-400 hover:text-[#a28f65] transition-colors duration-300"
                 onClick={(e) => {
                   e.stopPropagation();
                   setSelectedImage(null);

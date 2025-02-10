@@ -42,7 +42,7 @@ const teamMembers: TeamMember[] = [
 
 const OurTeam: React.FC = () => {
   return (
-    <section className="bg-black py-24">
+    <section className="bg-gradient-to-b from-[#fbfaf4] to-white py-24">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-2xl text-[#a28f65] font-light mb-2 tracking-wider">
@@ -55,57 +55,77 @@ const OurTeam: React.FC = () => {
           {teamMembers.map((member) => (
             <div 
               key={member.name} 
-              className="group relative bg-zinc-950/50 rounded-sm overflow-hidden"
+              className="group relative bg-white rounded-sm overflow-hidden shadow-sm border border-[#a28f65]/10 
+                hover:shadow-lg hover:border-[#a28f65]/30 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]"
             >
               <div className="relative h-[400px] overflow-hidden">
                 <Image
                   src={member.image}
                   alt={member.name}
                   fill
+                  priority
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="object-cover transition-all duration-700 filter grayscale group-hover:grayscale-0"
+                  className="object-cover will-change-transform transition-all duration-500 ease-out 
+                    filter grayscale group-hover:grayscale-0 group-hover:scale-110 transform-gpu"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent 
+                  opacity-60 group-hover:opacity-40 transition-all duration-500 ease-out" />
               </div>
               
-              <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-6 group-hover:translate-y-0 transition-transform duration-500">
-                <div>
-                  <h3 className="text-[#a28f65] font-light text-lg tracking-wide">
-                    {member.name}
-                  </h3>
-                  <p className="text-zinc-400 text-xs tracking-widest uppercase mt-1">
-                    {member.title}
-                  </p>
-                </div>
-                
-                <div className="flex gap-4 mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                  {member.facebook && (
-                    <a 
-                      href={member.facebook}
-                      className="text-zinc-400 hover:text-[#a28f65] transition-colors duration-300"
-                      aria-label="Facebook"
-                    >
-                      <FaFacebookF size={14} />
-                    </a>
-                  )}
-                  {member.twitter && (
-                    <a 
-                      href={member.twitter}
-                      className="text-zinc-400 hover:text-[#a28f65] transition-colors duration-300"
-                      aria-label="Twitter"
-                    >
-                      <FaTwitter size={14} />
-                    </a>
-                  )}
-                  {member.instagram && (
-                    <a 
-                      href={member.instagram}
-                      className="text-zinc-400 hover:text-[#a28f65] transition-colors duration-300"
-                      aria-label="Instagram"
-                    >
-                      <FaInstagram size={14} />
-                    </a>
-                  )}
+              <div className="absolute bottom-0 left-0 right-0 transform translate-y-16 
+                group-hover:translate-y-0 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]">
+                <div className="relative p-6 bg-white/95 backdrop-blur-md border-t border-[#a28f65]/10 
+                  shadow-lg transform group-hover:scale-100 transition-all duration-500">
+                  <div className="transform translate-y-1 group-hover:translate-y-0 
+                    opacity-100 transition-all duration-500 ease-out">
+                    <h3 className="text-[#a28f65] font-light text-lg tracking-wide">
+                      {member.name}
+                    </h3>
+                    <p className="text-zinc-600 text-xs tracking-widest uppercase mt-1">
+                      {member.title}
+                    </p>
+                  </div>
+                  
+                  <div className="flex gap-4 mt-4 opacity-0 transform translate-y-2
+                    group-hover:opacity-100 group-hover:translate-y-0 
+                    transition-all duration-500 ease-out delay-100">
+                    {member.facebook && (
+                      <a 
+                        href={member.facebook}
+                        className="text-zinc-500 hover:text-[#a28f65] transition-all duration-300 
+                          hover:scale-110 transform-gpu hover:-translate-y-1"
+                        aria-label="Facebook"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <FaFacebookF size={14} className="transform hover:rotate-12 transition-transform duration-300" />
+                      </a>
+                    )}
+                    {member.twitter && (
+                      <a 
+                        href={member.twitter}
+                        className="text-zinc-500 hover:text-[#a28f65] transition-all duration-300 
+                          hover:scale-110 transform-gpu hover:-translate-y-1"
+                        aria-label="Twitter"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <FaTwitter size={14} className="transform hover:rotate-12 transition-transform duration-300" />
+                      </a>
+                    )}
+                    {member.instagram && (
+                      <a 
+                        href={member.instagram}
+                        className="text-zinc-500 hover:text-[#a28f65] transition-all duration-300 
+                          hover:scale-110 transform-gpu hover:-translate-y-1"
+                        aria-label="Instagram"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <FaInstagram size={14} className="transform hover:rotate-12 transition-transform duration-300" />
+                      </a>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>

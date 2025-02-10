@@ -1,4 +1,3 @@
-
 "use client";
 import Image from "next/image";
 import { FaWhatsapp, FaInstagram } from 'react-icons/fa';
@@ -6,39 +5,37 @@ import { IoMailOpenOutline } from "react-icons/io5";
 
 const ContactUs: React.FC = () => {
   return (
-    <div className="px-8 sm:px-6 lg:px-8 py-12  mx-auto">
-      <div className="mb-6 sm:mb-10 max-w-2xl text-center mx-auto">
-        <h2 className="font-medium text-primary text-2xl sm:text-4xl">
-          Contacts Us
-        </h2>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 lg:items-center gap-6 md:gap-8 lg:gap-12">
-        <div className="aspect-w-16 aspect-h-6 lg:aspect-h-14 overflow-hidden bg-accent rounded-2xl">
-          <Image
-            className="group-hover:scale-105 group-focus:scale-105 transition-transform duration-500 ease-in-out object-cover rounded-2xl"
-            src="/assets/img/contactfreepik.jpg"
-            alt="Contacts Image"
-            width={650}
-            height={500}
-          />
+    <div className="bg-gradient-to-b from-gray-50 to-white px-4 sm:px-6 lg:px-8 py-24">
+      <div className="max-w-7xl mx-auto">
+        <div className="mb-12 sm:mb-16 max-w-2xl text-center mx-auto">
+          <h2 className="text-[#a28f65] text-3xl sm:text-4xl font-light tracking-wide mb-4">
+            Contact Us
+          </h2>
+          <div className="w-12 h-px bg-[#a28f65]/30 mx-auto" />
         </div>
-        {/* End Col */}
 
-        <div className="space-y-8 lg:space-y-16">
-          <div>
-            <h3 className="mb-5 font-semibold text-black">
-              Our address
-            </h3>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+          <div className="relative h-[400px] lg:h-[500px] overflow-hidden rounded-lg shadow-md">
+            <Image
+              className="object-cover transition-transform duration-700 hover:scale-105"
+              src="/assets/img/contactfreepik.jpg"
+              alt="Contacts Image"
+              fill
+              style={{ objectFit: 'cover' }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-50" />
+          </div>
 
-            {/* Grid */}
-            <div className="grid sm:grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-12">
-              <div className="flex gap-4">
+          <div className="space-y-12">
+            {/* Address Section */}
+            <div>
+              <h3 className="text-[#a28f65] text-xl font-light tracking-wide mb-6">
+                Our Address
+              </h3>
+              <div className="flex gap-4 items-start">
                 <svg
-                  className="shrink-0 size-5 text-gray-500"
+                  className="shrink-0 w-5 h-5 text-[#a28f65]"
                   xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -46,109 +43,78 @@ const ContactUs: React.FC = () => {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 >
-                  <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
-                  <circle cx="12" cy="10" r="3"></circle>
+                  <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                  <circle cx="12" cy="10" r="3" />
                 </svg>
-
-                <div className="grow">
-                  <p className="text-sm text-gray-600">
-                   Indonesia
+                <div>
+                  <p className="text-zinc-500 text-sm mb-2">
+                    Indonesia
                   </p>
-                  <address className="mt-1 text-black not-italic">
+                  <address className="text-zinc-700 not-italic text-sm leading-relaxed">
                     Jl. Karet Hijau No.10, Beji Tim., Kecamatan Beji, Kota Depok, Jawa Barat 16422
                   </address>
                 </div>
               </div>
             </div>
-            {/* End Grid */}
-          </div>
 
-          <div>
-            <h3 className="mb-5 font-semibold text-black">
-              Our contacts
-            </h3>
-
-            {/* Grid */}
-            <div className="grid sm:grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-12">
-              <div className="flex gap-4">
-                <a href="mailto:weharima.std@gmail.com" target="_blank">
-                    <IoMailOpenOutline
-                        className="shrink-0 size-5 text-gray-500"
-                        width={24}
-                        height={24}
-                    />
-                </a>
-                
-
-                <div className="grow">
-                  <p className="text-sm text-primary">
-                    Email
-                  </p>
-                  <p>
+            {/* Contact Info Section */}
+            <div>
+              <h3 className="text-[#a28f65] text-xl font-light tracking-wide mb-6">
+                Contact Information
+              </h3>
+              <div className="grid gap-6">
+                {/* Email */}
+                <div className="flex gap-4 items-start group">
+                  <a href="mailto:weharima.std@gmail.com" className="text-[#a28f65] hover:text-[#8f7c57] transition-colors duration-300">
+                    <IoMailOpenOutline className="w-5 h-5" />
+                  </a>
+                  <div>
+                    <p className="text-zinc-500 text-sm mb-1">Email</p>
                     <a
-                      className="relative inline-block font-medium before:w-full before:h-1 "
                       href="mailto:weharima.std@gmail.com"
+                      className="text-zinc-700 hover:text-[#a28f65] transition-colors duration-300 text-sm"
                     >
                       weharima.std@gmail.com
                     </a>
-                  </p>
+                  </div>
                 </div>
-              </div>
-              <div className="flex gap-4">
-                <a href="https://www.instagram.com/weha.studio/" target="_blank">
-                <FaInstagram
-                    className="shrink-0 size-5 text-gray-500"
-                    width={24}
-                    height={24}
-                    
-                />
-                </a>
-                
 
-                <div className="grow">
-                  <p className="text-sm text-primary">
-                    Instagram
-                  </p>
-                  <p>
+                {/* Instagram */}
+                <div className="flex gap-4 items-start group">
+                  <a href="https://www.instagram.com/weha.studio/" target="_blank" className="text-[#a28f65] hover:text-[#8f7c57] transition-colors duration-300">
+                    <FaInstagram className="w-5 h-5" />
+                  </a>
+                  <div>
+                    <p className="text-zinc-500 text-sm mb-1">Instagram</p>
                     <a
-                      className="relative inline-block font-medium "
                       href="https://www.instagram.com/weha.studio/"
+                      target="_blank"
+                      className="text-zinc-700 hover:text-[#a28f65] transition-colors duration-300 text-sm"
                     >
                       weha.studio
                     </a>
-                  </p>
+                  </div>
                 </div>
-              </div>
 
-              <div className="flex gap-4">
-                <a href="tel:+6281399100399" target="_blank">
-                    <FaWhatsapp
-                        className="shrink-0 size-5 text-gray-500"
-                        width={24}
-                        height={24}
-                        href="tel:+6281399100399"
-                        />
-                </a>
-
-                <div className="grow">
-                  <p className="text-sm text-primary">
-                    Whatsapp
-                  </p>
-                  <p>
+                {/* WhatsApp */}
+                <div className="flex gap-4 items-start group">
+                  <a href="tel:+6281399100399" className="text-[#a28f65] hover:text-[#8f7c57] transition-colors duration-300">
+                    <FaWhatsapp className="w-5 h-5" />
+                  </a>
+                  <div>
+                    <p className="text-zinc-500 text-sm mb-1">WhatsApp</p>
                     <a
-                      className="relative inline-block font-medium"
                       href="tel:+6281399100399"
+                      className="text-zinc-700 hover:text-[#a28f65] transition-colors duration-300 text-sm"
                     >
                       +62 813 9910 0399
                     </a>
-                  </p>
+                  </div>
                 </div>
               </div>
             </div>
-            {/* End Grid */}
           </div>
         </div>
-        {/* End Col */}
       </div>
     </div>
   );
