@@ -1,6 +1,13 @@
 import { NextResponse } from 'next/server';
 import { v2 as cloudinary } from 'cloudinary';
 
+// Cache and CDN Constants
+const CACHE_DURATION = 7 * 24 * 60 * 60; // 7 days in seconds
+const STALE_WHILE_REVALIDATE = 60 * 60; // 1 hour
+const MAX_AGE = 60 * 60 * 24; // 24 hours
+const BATCH_SIZE = 20;
+const IMAGE_BREAKPOINTS = [320, 640, 768, 1024, 1280, 1536];
+
 // Add interface for Cloudinary resource
 interface CloudinaryResource {
   public_id: string;
@@ -8,6 +15,9 @@ interface CloudinaryResource {
   format: string;
   tags?: string[];
   created_at: string;
+  width?: number;
+  height?: number;
+  placeholder?: string;
 }
 
 interface CloudinarySearchResponse {
@@ -23,7 +33,6 @@ cloudinary.config({
 
 export async function GET() {
   try {
-    // Validate environment variables
     if (!process.env.CLOUDINARY_API_KEY) {
       throw new Error('Missing Cloudinary configuration');
     }
@@ -35,10 +44,9 @@ export async function GET() {
           .sort_by('created_at', 'desc')
           .with_field('tags')
           .with_field('context')
-          .max_results(100)
+          .max_results(BATCH_SIZE)
           .execute() as CloudinarySearchResponse;
 
-        // Get additional details for each resource
         const resourcesWithDetails = await Promise.all(
           result.resources.map(async (resource) => {
             try {
@@ -47,24 +55,41 @@ export async function GET() {
                 image_metadata: true,
               });
               
+              // CDN Optimized URL
+              const optimizedUrl = cloudinary.url(resource.public_id, {
+                quality: 'auto:best',
+                fetch_format: 'auto',
+                secure: true,
+                dpr: 'auto',
+                flags: ['progressive', 'force_strip'],
+                responsive: true,
+                width: 'auto',
+                crop: 'scale',
+                responsive_breakpoints: {
+                  create_derived: true,
+                  bytes_step: 20000,
+                  min_width: 200,
+                  max_width: 1600,
+                  breakpoints: IMAGE_BREAKPOINTS,
+                },
+              });
+
+              // Placeholder for progressive loading
+              const placeholderUrl = cloudinary.url(resource.public_id, {
+                transformation: [
+                  { width: 10, crop: 'scale' },
+                  { quality: 'auto:eco' },
+                  { effect: 'blur:1000' },
+                  { fetch_format: 'auto' },
+                ],
+              });
+
               return {
                 ...resource,
                 width: details.width,
                 height: details.height,
-                secure_url: cloudinary.url(resource.public_id, {
-                  transformation: [
-                    { quality: 'auto:good', fetch_format: 'auto' },
-                    { dpr: 'auto' },
-                    { flags: 'progressive' }
-                  ],
-                }),
-                placeholder: cloudinary.url(resource.public_id, {
-                  transformation: [
-                    { width: 20, crop: 'scale' },
-                    { quality: 'auto:eco' },
-                    { effect: 'blur:1000' }
-                  ],
-                }),
+                secure_url: optimizedUrl,
+                placeholder: placeholderUrl,
               };
             } catch (error) {
               console.error(`Error fetching details for ${resource.public_id}:`, error);
@@ -88,29 +113,59 @@ export async function GET() {
 
     const result = await fetchWithRetry();
 
-    // Validate response
     if (!result || !Array.isArray(result.resources)) {
       throw new Error('Invalid response from Cloudinary');
     }
 
-    // Extract unique tags with proper typing
     const tags = [...new Set(
       result.resources
         .flatMap((resource: CloudinaryResource) => resource.tags || [])
         .filter(Boolean)
     )];
 
-    return NextResponse.json({
-      resources: result.resources,
-      tags: tags
-    });
+    // Create Response with Cache Headers
+    return new NextResponse(
+      JSON.stringify({
+        resources: result.resources,
+        tags: tags
+      }),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+          'Cache-Control': `public, max-age=${MAX_AGE}, s-maxage=${CACHE_DURATION}, stale-while-revalidate=${STALE_WHILE_REVALIDATE}`,
+          'CDN-Cache-Control': `max-age=${CACHE_DURATION}`,
+          'Surrogate-Control': `max-age=${CACHE_DURATION}`,
+          'Vary': 'Accept-Encoding',
+          'X-Content-Type-Options': 'nosniff',
+          'X-Frame-Options': 'DENY',
+          'X-XSS-Protection': '1; mode=block',
+        }
+      }
+    );
 
   } catch (error) {
     console.error('Cloudinary API Error:', error);
     
-    return NextResponse.json(
-      { message: error instanceof Error ? error.message : 'Unknown error' },
-      { status: 500 }
+    return new NextResponse(
+      JSON.stringify({ 
+        message: error instanceof Error ? error.message : 'Unknown error',
+        code: error instanceof Error ? error.name : 'UNKNOWN_ERROR',
+      }),
+      { 
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json',
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+        },
+      }
     );
   }
 }
+
+export const config = {
+  api: {
+    bodyParser: false,
+    responseLimit: false,
+  },
+};
