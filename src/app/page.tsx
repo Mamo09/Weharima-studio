@@ -3,7 +3,8 @@ import React from 'react';
 import Portfolio from './components/portfolio';  
 import Hero from './components/hero';
 // import WhyChooseUs from './components/whychooseus';
-import ProjectStages from './components/workprocess';
+// import ProjectStages from './components/workprocess';
+import BentoGrid from './components/bentogrid';
 
 
 // const Layanan: React.FC = () => {
@@ -18,7 +19,8 @@ const HomePage: React.FC = () => {
       <Hero />
       <Portfolio/>
       {/* <WhyChooseUs/> */}
-      <ProjectStages/>
+      {/* <ProjectStages/> */}
+      <BentoGrid/>
       
     </div>
   );

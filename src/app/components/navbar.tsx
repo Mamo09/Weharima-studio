@@ -50,6 +50,16 @@ const Navbar: React.FC = () => {
             </button>
           </div>
 
+          {/* <div className="group  h-15 w-15 cursor-pointer items-center justify-center rounded-3xl flex md:hidden ">
+            <div className="space-y-2 ">
+              <button onClick={toggleMenu}>
+                <span className="block h-1 w-10 origin-center rounded-full bg-black transition-transform ease-in-out group-hover:translate-y-1.5 group-hover:rotate-45 mb-1"></span>
+                <span className="block h-1 w-8 origin-center rounded-full bg-black transition-transform ease-in-out group-hover:w-10 group-hover:-translate-y-1.5 group-hover:-rotate-45"></span>
+                <span className=" h-1 w-6 origin-center rounded-full bg-black transition-transform   group-hover:-translate-y-1.5 "></span>
+                </button>
+            </div>
+          </div> */}
+
           {/* Menu Desktop di sebelah kanan */}
           <div className="hidden md:flex md:items-center md:space-x-6">
             {navLinks.map((link) => (
