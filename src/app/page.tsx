@@ -1,6 +1,6 @@
 'use client';  
 import React from 'react';  
-import Portfolio from './components/portfolio';  
+//import Portfolio from './components/portfolio';  
 import Hero from './components/hero';
 // import WhyChooseUs from './components/whychooseus';
 // import ProjectStages from './components/workprocess';
@@ -17,7 +17,7 @@ const HomePage: React.FC = () => {
     <div className='bg-[#fbf9f3]'>
       
       <Hero />
-      <Portfolio/>
+      {/* <Portfolio/> */}
       {/* <WhyChooseUs/> */}
       {/* <ProjectStages/> */}
       <BentoGrid/>

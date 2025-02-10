@@ -6,7 +6,7 @@ import { IoMailOpenOutline } from "react-icons/io5";
 
 const ContactUs: React.FC = () => {
   return (
-    <div className="px-8 sm:px-6 lg:px-8 py-12 lg:py-24 mx-auto">
+    <div className="px-8 sm:px-6 lg:px-8 py-12  mx-auto">
       <div className="mb-6 sm:mb-10 max-w-2xl text-center mx-auto">
         <h2 className="font-medium text-primary text-2xl sm:text-4xl">
           Contacts Us

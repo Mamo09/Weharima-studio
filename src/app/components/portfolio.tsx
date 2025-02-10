@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 
 "use client"; // Menandai file ini sebagai komponen klien
 
