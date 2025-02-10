@@ -1,6 +1,20 @@
 import { NextResponse } from 'next/server';
 import { v2 as cloudinary } from 'cloudinary';
 
+// Add interface for Cloudinary resource
+interface CloudinaryResource {
+  public_id: string;
+  secure_url: string;
+  format: string;
+  tags?: string[];
+  created_at: string;
+}
+
+interface CloudinarySearchResponse {
+  resources: CloudinaryResource[];
+  total_count: number;
+}
+
 cloudinary.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -19,17 +33,17 @@ export async function GET() {
       .sort_by('created_at', 'desc')
       .with_field('tags')
       .max_results(100)
-      .execute();
+      .execute() as CloudinarySearchResponse;
 
     // Validate response
     if (!result || !Array.isArray(result.resources)) {
       throw new Error('Invalid response from Cloudinary');
     }
 
-    // Extract unique tags
+    // Extract unique tags with proper typing
     const tags = [...new Set(
       result.resources
-        .flatMap(resource => resource.tags || [])
+        .flatMap((resource: CloudinaryResource) => resource.tags || [])
         .filter(Boolean)
     )];
 
