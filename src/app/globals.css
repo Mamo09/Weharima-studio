@@ -51,4 +51,53 @@ html {
   scrollbar-gutter: stable;
 }
 
+/* Custom toast styles */
+.Toastify__toast {
+  border-radius: 0.5rem !important;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
+  border: 1px solid rgba(162, 143, 101, 0.1) !important;
+  font-family: inherit !important;
+  transform: translateY(-100%);
+  animation: slideIn 0.3s ease forwards;
+}
+
+.Toastify__toast-body {
+  font-family: inherit !important;
+  padding: 12px !important;
+}
+
+.Toastify__close-button {
+  opacity: 0.5 !important;
+  transition: opacity 0.3s ease !important;
+  padding: 12px !important;
+}
+
+.Toastify__close-button:hover {
+  opacity: 1 !important;
+}
+
+.Toastify__toast-container {
+  width: auto !important;
+  max-width: 420px !important;
+  padding: 0 !important;
+}
+
+.Toastify__progress-bar {
+  height: 2px !important;
+}
+
+/* Toast Animation */
+@keyframes slideIn {
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Prevent Grammarly interference */
+grammarly-desktop-integration,
+div[data-grammarly-part="highlights"],
+grammarly-extension {
+  display: none !important;
+}
+
 

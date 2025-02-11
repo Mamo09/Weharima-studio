@@ -9,7 +9,7 @@ const OurServices: React.FC = () => {
       title: 'Interior Design',
       description:
         'Transform your living spaces with our expert interior design services. We create beautiful, functional, and personalized interiors that reflect your style.',
-      icon: '/assets/img/1_icon.png',
+      icon: '/assets/img/sketch.png',
     },
     {
       title: 'Architecture',
@@ -49,7 +49,7 @@ const OurServices: React.FC = () => {
               <div className="flex flex-col items-center text-center">
                 <div className="relative w-16 h-16 mb-6">
                   <Image
-                    src={service.icon}
+                    src=  {service.icon}
                     alt={service.title}
                     fill
                     sizes="(max-width: 768px) 64px, 64px"
