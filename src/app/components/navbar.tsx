@@ -34,7 +34,7 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav className="bg-[#a28f65]/90 backdrop-blur-sm w-full top-0 z-50">
+    <nav className="bg-[#a28f65]/90 backdrop-blur-sm w-full top-0 z-50 fixed">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex-shrink-0">
